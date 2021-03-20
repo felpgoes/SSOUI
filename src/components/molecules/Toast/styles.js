@@ -17,7 +17,7 @@ export const Container = styled(ToastContainer).attrs((props) => ({
   }
   .Toastify__toast--error {
     background-color: #ffff;
-    color: #60656c;
+    color: #ed1651;
     border-radius: 10px;
     font: 'Regular' 14px Work Sans;
     font: 200 14px Work Sans;
@@ -26,7 +26,7 @@ export const Container = styled(ToastContainer).attrs((props) => ({
   }
   .Toastify__toast--success {
     background-color: #ffff;
-    color: #60656c;
+    color: #afe97a;
     border-radius: 10px;
     font: 'Regular' 14px Work Sans;
     font: 200 14px Work Sans;
@@ -67,7 +67,7 @@ export const InfoContainer = styled.div`
 
   span {
     font: 300 14px 'Calibri';
-    color: #5a5a5a;
+    color: #000000;
     padding-left: 10px;
 
     strong {

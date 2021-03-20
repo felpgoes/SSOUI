@@ -1,6 +1,8 @@
 import produce from 'immer';
 
 export const Types = {
+  SIGN_IN_BY_STORAGE: '@auth/SIGN_IN_BY_STORAGE',
+  SIGN_OUT: '@auth/SIGN_OUT',
   SIGN_IN_REQUEST: '@auth/SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: '@auth/SIGN_IN_SUCCESS',
   SIGN_IN_ERROR: '@auth/SIGN_IN_ERROR',
@@ -17,34 +19,96 @@ export const Types = {
 
 const INITIAL_STATE = {
   loading: false,
-  success: false,
-  response: [],
-  error: true,
+  user: {},
+  token: {},
+  loggedIn: false,
 };
 
 export default function auth(state = INITIAL_STATE, action) {
-  return (
-    produce(state),
-    (draft) => {
-      switch (action.type) {
-        case Types.SIGN_IN_REQUEST: {
-          draft.loading = true;
-          break;
-        }
-        default:
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case Types.SIGN_IN_REQUEST: {
+        draft.loading = true;
+        break;
       }
+      case Types.SIGN_IN_BY_STORAGE: {
+        break;
+      }
+      case Types.SIGN_OUT: {
+        draft.loading = false;
+        draft.loggedIn = false;
+        draft.user = {};
+        draft.token = {};
+        break;
+      }
+      case Types.SIGN_IN_SUCCESS: {
+        draft.loading = false;
+        draft.loggedIn = true;
+        draft.user = action.payload.userToken;
+        draft.token = action.payload.accessToken;
+        break;
+      }
+      case Types.SIGN_IN_ERROR: {
+        draft.loading = false;
+        draft.loggedIn = false;
+        break;
+      }
+      case Types.SIGN_UP_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case Types.SIGN_UP_SUCCESS: {
+        draft.loading = false;
+        break;
+      }
+      case Types.SIGN_UP_ERROR: {
+        draft.loading = false;
+        break;
+      }
+      case Types.FORGOT_PASSWORD_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case Types.FORGOT_PASSWORD_SUCCESS: {
+        draft.loading = false;
+        break;
+      }
+      case Types.FORGOT_PASSWORD_ERROR: {
+        draft.loading = false;
+        break;
+      }
+      case Types.CHANGE_PASSWORD_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case Types.CHANGE_PASSWORD_SUCCESS: {
+        draft.loading = false;
+        break;
+      }
+      case Types.CHANGE_PASSWORD_ERROR: {
+        draft.loading = false;
+        break;
+      }
+      default:
     }
-  );
+  });
 }
 
 export const Creators = {
+  signOut: () => ({
+    type: Types.SIGN_OUT,
+  }),
+  signInByStorage: (params) => ({
+    type: Types.SIGN_IN_BY_STORAGE,
+    payload: { params },
+  }),
   signInRequest: (params) => ({
     type: Types.SIGN_IN_REQUEST,
     payload: { params },
   }),
-  signInSuccess: (token, usuario) => ({
+  signInSuccess: (accessToken, userToken) => ({
     type: Types.SIGN_IN_SUCCESS,
-    payload: { token, usuario },
+    payload: { accessToken, userToken },
   }),
   signInError: (error) => ({
     type: Types.SIGN_IN_ERROR,
@@ -54,9 +118,8 @@ export const Creators = {
     type: Types.SIGN_UP_REQUEST,
     payload: { params },
   }),
-  signUpSuccess: (token, usuario) => ({
+  signUpSuccess: () => ({
     type: Types.SIGN_UP_SUCCESS,
-    payload: { token, usuario },
   }),
   signUpError: (error) => ({
     type: Types.SIGN_UP_ERROR,

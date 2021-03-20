@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -16,7 +16,7 @@ import Button from '../../components/atoms/Button';
 const SignUp = () => {
   const formRef = useRef(null);
   const dispatch = useDispatch();
-
+  const { loading } = useSelector((state) => state.auth);
   const handleSubmit = useCallback(
     async (data) => {
       try {
@@ -79,7 +79,9 @@ const SignUp = () => {
               type="password"
               placeholder="Confirmar senha"
             />
-            <Button type="submit">Cadastrar</Button>
+            <Button disabled={loading} type="submit">
+              Cadastrar
+            </Button>
           </Form>
           <Link to="/login">
             <FiArrowLeft />
