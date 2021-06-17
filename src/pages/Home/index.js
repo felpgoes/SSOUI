@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import WrapperFlex from '../../components/molecules/WrapperFlex';
+import { getLocalObj } from '../../services/auth';
 import { Container, Content, Title, Background } from './styles';
 
 const Home = () => {
@@ -8,7 +9,11 @@ const Home = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.open('https://master.dq4m5pwh5e0w6.amplifyapp.com/home');
+      window.location.assign(
+        `https://master.dq4m5pwh5e0w6.amplifyapp.com/home?authuser=${btoa(
+          JSON.stringify(getLocalObj('@sso'))
+        )}`
+      );
     }, 3000);
   }, []);
 
